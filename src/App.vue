@@ -3,14 +3,12 @@
 </template>
 
 <script>
-import { commentaries } from '@/mock/commentaries.js'
 import CommentaryTree from '@/components/CommentaryTree.vue'
 
 export default {
   name: 'App',
   data() {
     return {
-      commentaries
     }
   },
   components: {
@@ -18,8 +16,11 @@ export default {
   },
   computed: {
     treeData() {
-      return this.renderCommentaries(commentaries)
-    }
+      return this.renderCommentaries(this.commentaries)
+    },
+    commentaries() {
+      return this.$store.state.commentaries
+    },
   },
   methods: {
     renderCommentaries() {
