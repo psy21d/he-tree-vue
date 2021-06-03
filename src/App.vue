@@ -2,7 +2,7 @@
   <CommentaryTree
     :treeData="treeData"
     @nodeReply="addCommentary"
-    @nodeDelete="removeCommentary"
+    @removeNode="removeCommentary"
     @reply="reply"
   />
 </template>
@@ -58,7 +58,6 @@ export default {
       commentaries.forEach((comment) => {
         comment.children = commentariesMap[comment.id]
       })
-      console.log(commentariesMap)
       if (!commentariesMap['null']) {
         commentariesMap['null'] = [
           {

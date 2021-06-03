@@ -72,6 +72,12 @@ export default {
       });
     };
 
+    const requestRemoveNodes = (nodeToRemoveChildrens) => {
+      walkTreeData(nodeToRemoveChildrens, (node) => {
+        context.emit('removeNode', node);
+      });
+    };
+
     const nodeEdit = (node) => {
       context.emit('nodeEdit', node);
     };
@@ -79,7 +85,7 @@ export default {
       context.emit('nodeReply', node);
     };
     const nodeDelete = (node) => {
-      context.emit('nodeDelete', node);
+      requestRemoveNodes(node);
     };
     
     const overrideSlotDefault = ({ node, /* index, path, tree */ }, original) => {
