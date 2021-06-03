@@ -1,8 +1,14 @@
 <template>
-  <CommentaryTree :treeData="treeData"/>
+  <CommentaryTree
+    :treeData="treeData"
+    @nodeReply="addCommentary"
+    @nodeDelete="removeCommentary"
+    @reply="reply"
+  />
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid'
 import CommentaryTree from '@/components/CommentaryTree.vue'
 
 export default {
@@ -23,6 +29,23 @@ export default {
     },
   },
   methods: {
+    reply() {
+      this.$store.dispatch('addCommentary', {
+        id: uuidv4(),
+        parent: null,
+        text: 'Верхнеуровневый',
+      })
+    },
+    addCommentary(node) {
+      this.$store.dispatch('addCommentary', {
+        id: uuidv4(),
+        parent: node.id,
+        text: 'Новый',
+      })
+    },
+    removeCommentary(node) {
+      this.$store.dispatch('removeCommentary', node)
+    },
     renderCommentaries() {
       let commentaries = this.commentaries
       let commentariesMap = {}
@@ -35,6 +58,15 @@ export default {
       commentaries.forEach((comment) => {
         comment.children = commentariesMap[comment.id]
       })
+      console.log(commentariesMap)
+      if (!commentariesMap['null']) {
+        commentariesMap['null'] = [
+          {
+            text: 'Ваш комментарий будет первым',
+            type: 'empty',
+          }
+        ]
+      }
       return commentariesMap['null']
     }
   }

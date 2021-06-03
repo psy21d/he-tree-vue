@@ -1,6 +1,6 @@
 <!-- Demo6CustomTreeView.vue -->
 <script>
-import "he-tree-vue/dist/he-tree-vue.css";
+import 'he-tree-vue/dist/he-tree-vue.css';
 import {
   Tree, // Base tree
   Fold,
@@ -11,9 +11,9 @@ import {
   //cloneTreeData,
   walkTreeData,
   //getPureTreeData, // utils
-} from "he-tree-vue";
+} from 'he-tree-vue';
 
-import { computed } from "vue";
+import { computed } from 'vue';
 
 export default {
   extends: Tree,
@@ -21,7 +21,7 @@ export default {
   mixins: [Fold, Check, Draggable],
 
   props: {
-    triggerClass: { default: "drag-trigger" },
+    triggerClass: { default: 'drag-trigger' },
     // prevent drag by default.
     draggable: { type: [Boolean, Function], default: false },
     droppable: { type: [Boolean, Function], default: false },
@@ -40,7 +40,7 @@ export default {
 
     const blockFooter = () => {
       return (
-        <div class="footer">
+        <div class='footer'>
           <i>Комментариев:</i> {total}
         </div>
       );
@@ -52,7 +52,7 @@ export default {
 
     const showHidden = () => {
       walkTreeData(props.rootNode, (node) => {
-        node["$hidden"] = false;
+        node['$hidden'] = false;
       });
     };
 
@@ -60,72 +60,81 @@ export default {
       if (!node.children) return
       for (let i = 0; i < node.children.length; i++) {
         let child = node.children[i];
-        child["$hidden"] = toggleShow;
+        child['$hidden'] = toggleShow;
       }
-      node["$wrapped"] = toggleShow;
+      node['$wrapped'] = toggleShow;
     };
 
     const search = (e) => {
-      const value = e.target.value || "";
+      const value = e.target.value || '';
       walkTreeData(props.rootNode, (node) => {
-        node["$hidden"] = !node.text.includes(value);
+        node['$hidden'] = !node.text.includes(value);
       });
     };
 
     const nodeEdit = (node) => {
-      console.log("nodeEdit: ", node);
-      context.emit("nodeEdit", node);
+      context.emit('nodeEdit', node);
     };
     const nodeReply = (node) => {
-      console.log("nodeReply: ", node);
-      context.emit("nodeReply", node);
+      context.emit('nodeReply', node);
     };
     const nodeDelete = (node) => {
-      console.log("nodeDelete: ", node);
-      context.emit("nodeDelete", node);
+      context.emit('nodeDelete', node);
     };
     
     const overrideSlotDefault = ({ node, /* index, path, tree */ }, original) => {
-      // const classes = isActive && "node-active";
-      return (
-        <div className={`node-wrapper ${node.isChildren && "node-children"}`}>
-          <div className="node-content">
-            <div>{original()}</div>
-            { node.children ?
-                !node.$wrapped ? 
-                <button class="mls btn" onClick={() => toggleChildNodes(node, true)}>
-                  Свернуть
-                </button> :
-                <button class="mls btn" onClick={() => toggleChildNodes(node, false)}>
-                  Развернуть
-                </button>
-              : ''
-            }
+      // const classes = isActive && 'node-active';
+      switch (node.type) {
+        case 'empty': return (
+          <div className={`node-wrapper ${node.isChildren && 'node-children'}`}>
+            <div className='node-content'>
+              <div>{original()}</div>
+              <button class='btn-group__item' onClick={reply}>
+                Ответить
+              </button>
+            </div>
           </div>
-          <div className="node-footer">
-            <button onClick={() => nodeEdit(node)}>Редактировать</button>
-            <button onClick={() => nodeReply(node)}>Ответить</button>
-            <button onClick={() => nodeDelete(node)}>Удалить</button>
+        )
+        default: return (
+          <div className={`node-wrapper ${node.isChildren && 'node-children'}`}>
+            <div className='node-content'>
+              <div>{original()}</div>
+              { node.children ?
+                  !node.$wrapped ? 
+                  <button class='mls btn' onClick={() => toggleChildNodes(node, true)}>
+                    Свернуть
+                  </button> :
+                  <button class='mls btn' onClick={() => toggleChildNodes(node, false)}>
+                    Развернуть
+                  </button>
+                : ''
+              }
+            </div>
+            <div className='node-footer'>
+              <button onClick={() => nodeEdit(node)}>Редактировать</button>
+              <button onClick={() => nodeReply(node)}>Ответить</button>
+              <button onClick={() => nodeDelete(node)}>Удалить</button>
+            </div>
           </div>
-        </div>
-      );
+        );
+      } 
     };
 
     const blockHeader = () => {
       return (
-        <div class="header">
-          <div class="btn-group">
-            <button class="btn-group__item" onClick={reply}>
+        <div class='header'>
+          <div class='btn-group'>
+            <button class='btn-group__item' onClick={reply}>
               Ответить
             </button>
-            <button classs="btn-group__item" onClick={showHidden} class="mls">
+            <button classs='btn-group__item' onClick={showHidden} class='mls'>
               Развернуть ветку
             </button>
           </div>
           <input
-            class="search"
-            onKeydown={(e) => e.key === "Enter" && search(e)}
-            placeholder="Поиск"
+            class='search'
+            onKeydown={(e) => e.key === 'Enter' && search(e)}
+            placeholder='Поиск'
           />
         </div>
       );
