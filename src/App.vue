@@ -6,7 +6,6 @@
 import { commentaries } from '@/mock/commentaries.js'
 import CommentaryTree from '@/components/CommentaryTree.vue'
 
-
 export default {
   name: 'App',
   data() {
@@ -32,7 +31,6 @@ export default {
         }
         commentariesMap[comment.parent].push(comment)
       })
-      console.log(commentariesMap)
       commentaries.forEach((comment) => {
         comment.children = commentariesMap[comment.id]
       })

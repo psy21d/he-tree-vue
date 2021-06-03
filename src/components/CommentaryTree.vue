@@ -1,23 +1,18 @@
 <template>
-    <Tree :value="treeData" />
+    <TreeView :value="treeData" />
 </template>
 
 <script>
-import {Tree, // Base tree
-  //Fold, Check, Draggable, // plugins
-  //foldAll, unfoldAll, cloneTreeData, walkTreeData, getPureTreeData, // utils
-} from 'he-tree-vue'
-import 'he-tree-vue/dist/he-tree-vue.css'
+import TreeView from "@/components/TreeView.vue";
 
 export default {
   name: 'CommentaryTree',
   data() {
     return {
-      Tree
     }
   },
   components: {
-    Tree,
+    TreeView,
   },
   props: {
     treeData: {
