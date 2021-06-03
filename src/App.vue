@@ -1,15 +1,43 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <CommentaryTree :treeData="treeData"/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { commentaries } from '@/mock/commentaries.js'
+import CommentaryTree from '@/components/CommentaryTree.vue'
+
 
 export default {
   name: 'App',
+  data() {
+    return {
+      commentaries
+    }
+  },
   components: {
-    HelloWorld
+    CommentaryTree,
+  },
+  computed: {
+    treeData() {
+      return this.renderCommentaries(commentaries)
+    }
+  },
+  methods: {
+    renderCommentaries() {
+      let commentaries = this.commentaries
+      let commentariesMap = {}
+      commentaries.forEach((comment) => {
+        if (!commentariesMap[comment.parent]) {
+          commentariesMap[comment.parent] = []
+        }
+        commentariesMap[comment.parent].push(comment)
+      })
+      console.log(commentariesMap)
+      commentaries.forEach((comment) => {
+        comment.children = commentariesMap[comment.id]
+      })
+      return commentariesMap['null']
+    }
   }
 }
 </script>
