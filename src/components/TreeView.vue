@@ -156,7 +156,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .search {
   margin: 5px;
   padding: 10px 5px;
@@ -183,7 +183,7 @@ export default {
   margin: 0;
 }
 
-.node-wrapper[data-v-1d41da13] {
+.node-wrapper {
     width: 100%;
     transition: all 0.3s ease;
     cursor: pointer;
@@ -209,9 +209,7 @@ export default {
 .btn {
   margin: 3px;
 }
-</style>
 
-<style>
 .he-tree .tree-node{
   margin-bottom: 5px;
   padding: 5px;
@@ -236,7 +234,7 @@ export default {
 }
 
 .tree-node-back {
-  padding: 0 !important;
+  padding: 0;
   width: 100%;
 }
 .tree-node-back .tree-node {
