@@ -14,7 +14,6 @@
     "sass-loader": "^10.0.0",
     "uuid": "^8.3.2",
     "vue": "^3.0.0",
-    "vue-modaltor": "^1.5.2",
     "vuex": "^4.0.1"
   },
   "devDependencies": {
