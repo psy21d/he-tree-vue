@@ -1,4 +1,4 @@
-# simplecommentaries
+# he-tree-vue example with vuex and composition api example too
 
 ## Project setup
 ```
