@@ -65,6 +65,7 @@ export default {
     const search = (e) => {
       const value = e.target.value || '';
       walkTreeData(props.rootNode, (node) => {
+        if (!node.text) return
         node['$hidden'] = !node.text.includes(value);
       });
     };
