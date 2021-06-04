@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import { commentaries } from '@/mock/commentaries.js'
+var ls = require('local-storage');
 
 //declare type AppPromisableConfig = {
 //   show: boolean
@@ -8,6 +9,23 @@ import { commentaries } from '@/mock/commentaries.js'
 //     reject: () => void
 //   }
 // }
+
+window.ls = ls
+
+let loadCommentaries = (arr) => {
+  if (ls('localized') === 'true') {
+    try {
+      arr = []
+      arr = JSON.parse(ls('commentaries'))
+    } catch (e) {
+      console.log(e)
+      console.log('cannot load commentaries')
+    }
+  }
+  let hash = hashFromArray(arr)
+  arrayFromHash(hash)
+  return hash
+}
 
 let hashFromArray = (arr) => {
   let hash = {}
@@ -20,14 +38,21 @@ let arrayFromHash = (hash) => {
   Object.keys(hash).forEach(key => {
     arr.push(hash[key])
   })
+  try {
+    ls('commentaries', JSON.stringify(arr))
+    ls('localized', 'true')
+  } catch(e) {
+    console.log(e)
+    console.log('cannot save commentaries')
+  }
   return arr
 }
 
 export const store = createStore({
   state () {
     return {
-      commentaries,
-      hash: hashFromArray(commentaries),
+      commentaries: arrayFromHash(loadCommentaries(commentaries)),
+      hash: loadCommentaries(commentaries),
       dialogVisible: false,
       dialogText: '',
       dialogConfirmed: false,
