@@ -36,17 +36,12 @@ export default {
   },
   methods: {
     reply() {
-      this.$store.dispatch('addCommentary', {
-        id: uuidv4(),
-        parent: null,
-        text: 'Верхнеуровневый',
-      })
+      this.addCommentary(null)
     },
     addCommentary(node) {
       this.$store.commit('set', { key: 'dialogText', value: '' })
-      this.$store.commit('set', { key: 'parentId', value: node.id })
+      this.$store.commit('set', { key: 'parentId', value: node ? node.id : null})
       this.$store.commit('set', { key: 'nodeId', value: uuidv4() })
-      this.$store.commit('set', { key: 'dialogVisible', value: true })
       new Promise((resolve, reject) => {
         this.$store.commit('setDialog', { resolve, reject })
       }).then(() => {
@@ -55,9 +50,8 @@ export default {
     },
     editCommentary(node) {
       this.$store.commit('set', { key: 'dialogText', value: node.text })
-      this.$store.commit('set', { key: 'parentId', value:null })
-      this.$store.commit('set', { key: 'nodeId', value:node.id })
-      this.$store.commit('set', { key: 'dialogVisible', value:true })
+      this.$store.commit('set', { key: 'parentId', value: node.parent })
+      this.$store.commit('set', { key: 'nodeId', value: node.id })
       new Promise((resolve, reject) => {
         this.$store.commit('setDialog', { resolve, reject })
       }).then(() => {

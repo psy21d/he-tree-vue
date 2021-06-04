@@ -88,14 +88,17 @@ export const store = createStore({
     setDialog(state, dialogPromise) {
       state.dialogPromise = dialogPromise;
       state.dialogConfirmed = false;
+      state.dialogVisible = true;
     },
     resolveDialog(state) {
       state.dialogPromise.resolve();
       state.dialogConfirmed = true;
+      state.dialogVisible = false;
     },
     rejectDialog(state) {
       state.dialogPromise.reject();
       state.dialogConfirmed = false;
+      state.dialogVisible = false;
     },
   },
   actions: {

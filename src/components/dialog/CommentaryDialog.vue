@@ -1,7 +1,6 @@
 <template>
   <base-dialog
     :title="title"
-    :dialogVisible="dialogVisible"
     :showConfirmBtn="false"
     @close="rejectDialog"
     class="dialog"
