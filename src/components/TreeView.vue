@@ -157,29 +157,6 @@ export default {
 </script>
 
 <style scoped>
-.he-tree .tree-node{
-  margin-bottom: 5px;
-  padding: 5px;
-}
-
-.he-tree--hidden{
-  display: none;
-}
-
-.he-tree--rtl{
-  direction: rtl;
-}
-
-.he-tree .tree-placeholder-node{
-  background: #ddf2f9;
-  border: 1px dashed #00d9ff;
-  height: 20px;
-}
-
-.he-tree .dragging .tree-node-back:hover{
-  background-color: inherit;
-}
-
 .search {
   margin: 5px;
   padding: 10px 5px;
@@ -190,9 +167,6 @@ export default {
 
 .tree-children {
   margin-left: 15px;
-}
-.node-children {
-  background: rgb(183, 93, 243) !important;
 }
 
 .btn-group {
@@ -238,6 +212,29 @@ export default {
 </style>
 
 <style>
+.he-tree .tree-node{
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+.he-tree--hidden{
+  display: none;
+}
+
+.he-tree--rtl{
+  direction: rtl;
+}
+
+.he-tree .tree-placeholder-node{
+  background: #ddf2f9;
+  border: 1px dashed #00d9ff;
+  height: 20px;
+}
+
+.he-tree .dragging .tree-node-back:hover{
+  background-color: inherit;
+}
+
 .tree-node-back {
   padding: 0 !important;
   width: 100%;
