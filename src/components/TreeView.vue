@@ -30,8 +30,6 @@ export default {
   setup(props, context) {
     let total = computed(() => {
       let i = 0;
-      /* eslint-disable no-debugger */
-      debugger
       walkTreeData(props.rootNode, () => {
         i++;
       });

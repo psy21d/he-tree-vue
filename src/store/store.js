@@ -1,6 +1,14 @@
 import { createStore } from 'vuex'
 import { commentaries } from '@/mock/commentaries.js'
 
+//declare type AppPromisableConfig = {
+//   show: boolean
+//   promise?: {
+//     resolve: () => void
+//     reject: () => void
+//   }
+// }
+
 let hashFromArray = (arr) => {
   let hash = {}
   arr.forEach(item => hash[item.id] = item)
@@ -19,10 +27,48 @@ export const store = createStore({
   state () {
     return {
       commentaries,
-      hash: hashFromArray(commentaries)
+      hash: hashFromArray(commentaries),
+      dialogVisible: false,
+      dialogText: '',
+      dialogConfirmed: false,
+      parentId: null,
+      nodeId: null,
+      dialogPromise: {
+        resolve: () => {},
+        reject: () => {}
+      }
+    }
+  },
+  getters: {
+    commentaries: state => {
+      return state.commentaries;
+    },
+    hash: state => {
+      return state.hash;
+    },
+    dialogVisible: state => {
+      return state.dialogVisible;
+    },
+    dialogText: state => {
+      return state.dialogText;
+    },
+    dialogConfirmed: state => {
+      return state.dialogConfirmed;
+    },
+    parentId: state => {
+      return state.parentId;
+    },
+    nodeId: state => {
+      return state.nodeId;
+    },
+    dialogPromise: state => {
+      return state.dialogPromise;
     }
   },
   mutations: {
+    set(state, { key, value }) {
+      state[key] = value
+    },
     updateCommentariesFromHash(state) {
       state.commentaries = arrayFromHash(state.hash)
     },
@@ -39,6 +85,18 @@ export const store = createStore({
       state.hash[commentary] = commentary
       this.commit('updateCommentariesFromHash')
     },
+    setDialog(state, dialogPromise) {
+      state.dialogPromise = dialogPromise;
+      state.dialogConfirmed = false;
+    },
+    resolveDialog(state) {
+      state.dialogPromise.resolve();
+      state.dialogConfirmed = true;
+    },
+    rejectDialog(state) {
+      state.dialogPromise.reject();
+      state.dialogConfirmed = false;
+    },
   },
   actions: {
     addCommentary (state, commentary) {
@@ -46,6 +104,6 @@ export const store = createStore({
     },
     removeCommentary (state, commentary) {
       state.commit('removeCommentary', commentary)
-    } 
+    },
   }
 })

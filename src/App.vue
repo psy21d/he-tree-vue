@@ -3,13 +3,17 @@
     :treeData="treeData"
     @nodeReply="addCommentary"
     @removeNode="removeCommentary"
+    @nodeEdit="editCommentary"
     @reply="reply"
   />
+  <CommentaryDialog v-if="dialogVisible" />
 </template>
 
 <script>
 import { v4 as uuidv4 } from 'uuid'
 import CommentaryTree from '@/components/CommentaryTree.vue'
+import CommentaryDialog from '@/components/dialog/CommentaryDialog.vue'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'App',
@@ -19,8 +23,10 @@ export default {
   },
   components: {
     CommentaryTree,
+    CommentaryDialog,
   },
   computed: {
+    ...mapGetters(['dialogText','dialogVisible', 'nodeId', 'parentId']),
     treeData() {
       return this.renderCommentaries(this.commentaries)
     },
@@ -37,10 +43,32 @@ export default {
       })
     },
     addCommentary(node) {
+      this.$store.commit('set', { key: 'dialogText', value: '' })
+      this.$store.commit('set', { key: 'parentId', value: node.id })
+      this.$store.commit('set', { key: 'nodeId', value: uuidv4() })
+      this.$store.commit('set', { key: 'dialogVisible', value: true })
+      new Promise((resolve, reject) => {
+        this.$store.commit('setDialog', { resolve, reject })
+      }).then(() => {
+        this.placeCommentary()
+      });
+    },
+    editCommentary(node) {
+      this.$store.commit('set', { key: 'dialogText', value: node.text })
+      this.$store.commit('set', { key: 'parentId', value:null })
+      this.$store.commit('set', { key: 'nodeId', value:node.id })
+      this.$store.commit('set', { key: 'dialogVisible', value:true })
+      new Promise((resolve, reject) => {
+        this.$store.commit('setDialog', { resolve, reject })
+      }).then(() => {
+        this.placeCommentary()
+      });
+    },
+    placeCommentary() {
       this.$store.dispatch('addCommentary', {
-        id: uuidv4(),
-        parent: node.id,
-        text: 'Новый',
+        id: this.$store.state.nodeId,
+        parent: this.$store.state.parentId,
+        text: this.$store.state.dialogText,
       })
     },
     removeCommentary(node) {
