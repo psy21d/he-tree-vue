@@ -2,7 +2,7 @@
 
 ### https://nervous-hodgkin-89a1cd.netlify.app/
 
-# this is Minimal Valuable 1-day NVP Code
+# this is Minimal Valuable 1-day MVP Code
 Okey, VUEX is here, LOL
 
 https://he-tree-vue.phphe.com/guide.html#import
